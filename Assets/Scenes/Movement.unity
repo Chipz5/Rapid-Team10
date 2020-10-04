@@ -539,12 +539,12 @@ PrefabInstance:
     - target: {fileID: 3631023289093153976, guid: 74309096f6168fc4f87e3cb1a9a50587,
         type: 3}
       propertyPath: lookSpeedVertical
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3631023289093153976, guid: 74309096f6168fc4f87e3cb1a9a50587,
         type: 3}
       propertyPath: lookSpeedHorizontal
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7980430133495862456, guid: 74309096f6168fc4f87e3cb1a9a50587,
         type: 3}

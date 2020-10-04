@@ -53,8 +53,8 @@ public class JoystickController : MonoBehaviour
     void Update()
     {
         // Get the Vector3 direction indicated by the movement joystick
-        Vector3 direction = Vector3.forward * fixedJoystickMovement.Vertical +
-                            Vector3.right * fixedJoystickMovement.Horizontal;
+        Vector3 direction = playerRB.transform.forward * fixedJoystickMovement.Vertical +
+                            playerRB.transform.right * fixedJoystickMovement.Horizontal;
         // Add the force to the player to make it move
         playerRB.AddForce(direction * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
 
