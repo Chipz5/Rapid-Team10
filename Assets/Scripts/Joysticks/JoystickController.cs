@@ -31,7 +31,7 @@ public class JoystickController : MonoBehaviour
     public FixedJoystick fixedJoystickMovement;
     [Tooltip("The joystick that will control the camera")]
     public FixedJoystick fixedJoystickCamera;
-    [Tooltip("The object representing the character (must have a RigidBody attached)")]
+    [Tooltip("The object representing the character (must have a Rigidbody attached)")]
     public Rigidbody playerRB;
     [Tooltip("The camera representing the player's view (should be a child of the player)")]
     public Camera playerCamera;
