@@ -1,13 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerState : MonoBehaviour
 {
 
     [Tooltip("The camera prepresenting the players view (should be a child of the this game object)")]
     public Camera playerCamera;
-
+    //private Boolean shouldLaunchMiniTask = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,5 +25,15 @@ public class PlayerState : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnCollisionEnter(Collision hit)
+    {
+        GameState gameState = GameState.instance;
+        if (gameState.shouldLaunchMiniTask && hit.transform.gameObject.name == "Cube")
+        {
+            gameState.shouldLaunchMiniTask = false;
+            SceneManager.LoadScene(sceneName: "TapScene");
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class GameState : MonoBehaviour
     public Quaternion playerRotation;
     [Tooltip("The rotation of the camera in the Movement scene")]
     public Quaternion cameraRotation;
-
+    public Boolean shouldLaunchMiniTask = true;
     [Header("The player and camera objects controlled by the joysticks")]
     [Tooltip("The player representing the main character (must have a Rigidbody attached)")]
     public Rigidbody player;
