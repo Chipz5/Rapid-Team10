@@ -30,7 +30,6 @@ public class PlayerState : MonoBehaviour
     private void OnCollisionEnter(Collision hit)
     {
         GameState gameState = GameState.instance;
-        Debug.Log(hit.transform.gameObject.name);
         if (gameState.shouldLaunchMiniTask && hit.transform.gameObject.name == "Door")
         {
             gameState.shouldLaunchMiniTask = false;
