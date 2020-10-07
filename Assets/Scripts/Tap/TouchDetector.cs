@@ -55,7 +55,9 @@ public class TouchDetector : MonoBehaviour
 
     public void LoadMainScene()
     {
-        SceneManager.LoadScene(sceneName: "Movement");
+        // Execute the callback for this minigame being complete
+        GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
+        //SceneManager.LoadScene(sceneName: "Movement");
     }
 
 
