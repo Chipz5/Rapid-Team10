@@ -29,11 +29,9 @@ public class PlayerState : MonoBehaviour
 
     private void OnCollisionEnter(Collision hit)
     {
-        GameState gameState = GameState.instance;
-        if (gameState.shouldLaunchMiniTask && hit.transform.gameObject.name == "Door")
+        if (GameState.taskList.ContainsKey(hit.transform.gameObject.name))
         {
-            gameState.shouldLaunchMiniTask = false;
-            SceneManager.LoadScene(sceneName: "TapScene");
+            GameState.taskList[hit.transform.gameObject.name].onColliderHit();
         }
     }
 }
