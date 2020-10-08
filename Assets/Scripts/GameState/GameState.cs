@@ -70,6 +70,21 @@ public class GameState : MonoBehaviour
                         },
                         "Turn the stove on and off.",
                         5));
+                    taskList.Add("Lamp", new Task("Check the lamp.",
+                        () =>
+                        {
+                            currentCollisionKey = "Lamp";
+                            // When the player contacts the stove, launch the minigame
+                            SceneManager.LoadScene(sceneName: "TapScene"); // TODO: Change this to be the swipe minigame
+                        },
+                        () =>
+                        {
+                            taskList.Remove("Lamp");
+                            IfAllMinigamesAreComplete();
+                            SceneManager.LoadScene(sceneName: "Movement");
+                        },
+                        "Turn the lamp on and off.",
+                        5));
                     // TODO: Add other tasks to the list here
                 },
                 ()=>
