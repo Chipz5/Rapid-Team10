@@ -22,7 +22,7 @@ public class TapAtPosition : MonoBehaviour
             circle = GameObject.Find("Circle");
             if (circle.transform.position.x > -1.25 && circle.transform.position.x < 1.25)
             {
-                SceneManager.LoadScene(sceneName: "Movement");
+                GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
             }
         }
     }

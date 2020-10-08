@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 public class TouchDetector : MonoBehaviour
 {
     public Text test;
+    public Text objectiveText;
     int count = 5;
     public GameObject button;
     void Awake()
@@ -28,24 +29,24 @@ public class TouchDetector : MonoBehaviour
             {
                 test.text = "You tapped too many times.... START AGAIN!!!!";
                 count--;
+                objectiveText.text = "Lock and unlock the door " + count + " times!";
             }
             else if (count == 0)
-             {
-                 test.text = "DO NOT TAP ANYMORE!!!!";
-                 count = 6;
+            {
+                test.text = "DO NOT TAP ANYMORE!!!!";
+                objectiveText.text = "Lock and unlock the door " + count + " times!";
+                count = 6;
                 button.SetActive(true);
 
             }
-             else
-             {
+            else
+            {
                 button.SetActive(false);
                 test.text = "Tap " + count + " more times!";
-                
+                objectiveText.text = "Lock and unlock the door " + count + " times!";
                 count--;
-                
-                //button.SetActive(false);
             }
-             print("Tap detected...");
+            //print("Tap detected...");
 
 
         }

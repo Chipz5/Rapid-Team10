@@ -60,7 +60,7 @@ public class GameState : MonoBehaviour
                         {
                             currentCollisionKey = "Stove";
                             // When the player contacts the stove, launch the minigame
-                            SceneManager.LoadScene(sceneName: "TapScene"); // TODO: Change this to be the circle minigame
+                            SceneManager.LoadScene(sceneName: "TapAtSpecificPoint"); 
                         },
                         () =>
                         {
@@ -75,7 +75,7 @@ public class GameState : MonoBehaviour
                         {
                             currentCollisionKey = "Lamp";
                             // When the player contacts the stove, launch the minigame
-                            SceneManager.LoadScene(sceneName: "TapScene"); // TODO: Change this to be the swipe minigame
+                            SceneManager.LoadScene(sceneName: "SwipeScene");
                         },
                         () =>
                         {
@@ -123,7 +123,7 @@ public class GameState : MonoBehaviour
                          () =>
                          {
                              taskList.Remove("Door");
-                             SceneManager.LoadScene(sceneName: "Movement");
+                             SceneManager.LoadScene(sceneName: "WinScene");
                          },
                          "Lock and unlock the door.",
                          5));

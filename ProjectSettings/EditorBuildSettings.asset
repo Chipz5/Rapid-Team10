@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SwipeScene.unity
     guid: b2458fe9fe87ee04ea1c006dcd0e5380
+  - enabled: 1
+    path: Assets/Scenes/TapAtSpecificPoint.unity
+    guid: 9fc06995abd574441ad0a67c949b7918
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
+    guid: 581f687d2559fdd4fb925f7e40db6e4f
   m_configObjects: {}
