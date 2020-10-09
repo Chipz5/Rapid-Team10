@@ -65,6 +65,12 @@ public class ControlsController : MonoBehaviour
             playerRB.AddForce(playerRB.transform.forward * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
         }
 
+        // Debug code that shouldn't matter in the mobile version
+        if(Input.GetKey(KeyCode.Space))
+        {
+            playerRB.AddForce(playerRB.transform.forward * moveSpeed * Time.deltaTime, ForceMode.VelocityChange);
+        }
+
         // If we want the camera to snap back to the center when you let go of the right joystick
         if (cameraSnapsBackToCenter)
         {

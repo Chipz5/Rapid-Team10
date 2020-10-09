@@ -18,6 +18,8 @@ public class GameState : MonoBehaviour
     public Rigidbody player;
     [Tooltip("The camera representing the main character's view (should be the child of player)")]
     public Camera playerCamera;
+    [Tooltip("The object holding the LightController for this scene")]
+    public LightController lightController;
 
     public static string currentCollisionKey;
 
@@ -50,6 +52,11 @@ public class GameState : MonoBehaviour
         if(!firstInitializationComplete)
         {
             firstInitializationComplete = true;
+            if(lightController == null)
+            {
+                lightController = GameObject.Find("Lights").GetComponent<LightController>();
+            }
+            
             taskList.Add("Door", new Task("Leave your home.",
                 ()=>
                 {
@@ -59,14 +66,18 @@ public class GameState : MonoBehaviour
                         () =>
                         {
                             currentCollisionKey = "Stove";
-                            // When the player contacts the stove, launch the minigame
-                            SceneManager.LoadScene(sceneName: "TapAtSpecificPoint"); 
+                            // When the player contacts the stove, highlight the stove then launch the minigame
+                            // TODO: Disable controls until it gets back to Movement
+                            StartCoroutine(lightController.TweenToStove(()=> {
+                                SceneManager.LoadScene(sceneName: "TapAtSpecificPoint"); 
+                            })); 
                         },
                         () =>
                         {
                             taskList.Remove("Stove");
                             IfAllMinigamesAreComplete();
-                            SceneManager.LoadScene(sceneName: "Movement");
+                            // TODO: Need to find a way to trigger lightController.TweenFromStove(()=>{return;}) after scene load
+                            SceneManager.LoadScene(sceneName: "Movement"); 
                         },
                         "Turn the stove on and off.",
                         5));

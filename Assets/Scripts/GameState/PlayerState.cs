@@ -19,6 +19,16 @@ public class PlayerState : MonoBehaviour
         playerCamera.transform.rotation = gameState.cameraRotation;
         gameState.player = this.GetComponent<Rigidbody>();
         gameState.playerCamera = playerCamera;
+
+        if (SceneManager.GetActiveScene().name == "Movement")
+        {
+            this.GetComponent<Rigidbody>().useGravity = true;
+        }
+        else
+        {
+            // The player should be held in the void during minigames
+            this.GetComponent<Rigidbody>().useGravity = false;
+        }
     }
 
     // Update is called once per frame
