@@ -80,6 +80,23 @@ public class GameState : MonoBehaviour
                         () =>
                         {
                             taskList.Remove("Lamp");
+
+                            taskList.Add("Blocks", new Task("Count the blocks.",
+                                () =>
+                                {
+                                    currentCollisionKey = "Blocks";
+                                    // When the player contacts the stove, launch the minigame
+                                    SceneManager.LoadScene(sceneName: "NumberScene");
+                                },
+                                () =>
+                                {
+                                    taskList.Remove("Blocks");
+                                    IfAllMinigamesAreComplete();
+                                    SceneManager.LoadScene(sceneName: "Movement");
+                                },
+                                "Count the blocks",
+                                5));
+
                             IfAllMinigamesAreComplete();
                             SceneManager.LoadScene(sceneName: "Movement");
                         },

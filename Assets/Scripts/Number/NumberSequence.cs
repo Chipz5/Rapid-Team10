@@ -58,7 +58,7 @@ public class NumberSequence : MonoBehaviour
         {
             if (correctSeq)
             {
-                SceneManager.LoadScene(sceneName: "Movement");
+                GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
             }
             index = 0;
         }
