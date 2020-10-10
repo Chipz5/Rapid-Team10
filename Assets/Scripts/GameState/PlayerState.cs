@@ -37,7 +37,7 @@ public class PlayerState : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision hit)
+    private void OnTriggerEnter(Collider hit)
     {
         if (GameState.taskList.ContainsKey(hit.transform.gameObject.name))
         {

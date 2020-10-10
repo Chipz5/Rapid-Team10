@@ -43,7 +43,8 @@ public class ControlsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameState gameState = GameState.instance;
+        gameState.controlsController = gameObject.GetComponent<ControlsController>();
     }
 
     // Update is called once per frame

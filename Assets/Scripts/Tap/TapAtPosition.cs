@@ -25,5 +25,11 @@ public class TapAtPosition : MonoBehaviour
                 GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
             }
         }
+
+        // DEBUG CODE: Shouldn't affect the mobile version though
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
+        }
     }
 }

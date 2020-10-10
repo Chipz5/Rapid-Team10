@@ -13,6 +13,7 @@ public class GameState : MonoBehaviour
     public Quaternion playerRotation;
     [Tooltip("The rotation of the camera in the Movement scene")]
     public Quaternion cameraRotation;
+
     [Header("The player and camera objects controlled by the joysticks")]
     [Tooltip("The player representing the main character (must have a Rigidbody attached)")]
     public Rigidbody player;
@@ -20,10 +21,18 @@ public class GameState : MonoBehaviour
     public Camera playerCamera;
     [Tooltip("The object holding the LightController for this scene")]
     public LightController lightController;
+    [Tooltip("The object holding the ControlsController for this scene")]
+    public ControlsController controlsController;
+    [Tooltip("The object holding the CameraController for this scene")]
+    public CameraController cameraController;
 
     public static string currentCollisionKey;
+    
 
     private static bool firstInitializationComplete = false;
+    private static Action afterSceneTransitionToMovement = null;
+    public static Vector3 preTweenCameraPosition;
+    public static Quaternion preTweenCameraRotation;
 
     // Create a singleton of this class, so that only one can ever exist
     private static GameState _instance;
@@ -49,14 +58,22 @@ public class GameState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(!firstInitializationComplete)
+        if(!firstInitializationComplete) // If this is the first time loading this object
         {
             firstInitializationComplete = true;
             if(lightController == null)
             {
                 lightController = GameObject.Find("Lights").GetComponent<LightController>();
             }
-            
+            if(controlsController == null)
+            {
+                controlsController = GameObject.Find("Controls").GetComponent<ControlsController>();
+            }
+            if (cameraController == null)
+            {
+                cameraController = GameObject.Find("CameraTransforms").GetComponent<CameraController>();
+            }
+
             taskList.Add("Door", new Task("Leave your home.",
                 ()=>
                 {
@@ -67,16 +84,27 @@ public class GameState : MonoBehaviour
                         {
                             currentCollisionKey = "Stove";
                             // When the player contacts the stove, highlight the stove then launch the minigame
-                            // TODO: Disable controls until it gets back to Movement
-                            StartCoroutine(lightController.TweenToStove(()=> {
+                            // Disable controls until it gets back to Movement
+                            controlsController.gameObject.SetActive(false);
+                            TweenToStove(()=> {
                                 SceneManager.LoadScene(sceneName: "TapAtSpecificPoint"); 
-                            })); 
+                            }); 
                         },
                         () =>
                         {
                             taskList.Remove("Stove");
                             IfAllMinigamesAreComplete();
-                            // TODO: Need to find a way to trigger lightController.TweenFromStove(()=>{return;}) after scene load
+                            // Trigger lightController.TweenFromStove() after scene load
+                            afterSceneTransitionToMovement = () =>
+                            {
+                                // Disable controls
+                                controlsController.gameObject.SetActive(false);
+                                TweenFromStove(() =>
+                                {
+                                    // Enable controls
+                                    controlsController.gameObject.SetActive(true);
+                                });
+                            };
                             SceneManager.LoadScene(sceneName: "Movement"); 
                         },
                         "Turn the stove on and off.",
@@ -135,6 +163,12 @@ public class GameState : MonoBehaviour
             playerRotation = player.transform.rotation;
             cameraRotation = playerCamera.transform.rotation;
         }
+
+        if(SceneManager.GetActiveScene().name == "Movement" && afterSceneTransitionToMovement != null)
+        {
+            afterSceneTransitionToMovement();
+            afterSceneTransitionToMovement = null;
+        }
     }
 
     private void IfAllMinigamesAreComplete()
@@ -156,5 +190,105 @@ public class GameState : MonoBehaviour
                          "Lock and unlock the door.",
                          5));
         }
+    }
+
+    private void TweenToStove(Action action)
+    {
+        preTweenCameraPosition = playerCamera.transform.position;
+        preTweenCameraRotation = playerCamera.transform.rotation;
+
+        // Tween camera to look at stove
+        StartCoroutine(cameraController.TweenToStove(() =>
+        {
+            // Trigger the lights to focus on the stove, then trigger action
+            StartCoroutine(lightController.TweenToStove(action));
+        }));
+    }
+
+    private void TweenFromStove(Action action)
+    {
+        // Turn off all lights but the stove lights
+        lightController.SnapToStove();
+        // Tween camera back to original player location
+        StartCoroutine(cameraController.TweenFromStove(() =>
+        {
+            // Trigger the lights to stop focusing on the stove, then trigger action
+            StartCoroutine(lightController.TweenFromStove(action));
+        }));
+    }
+
+    private void TweenToLamp(Action action)
+    {
+        preTweenCameraPosition = playerCamera.transform.position;
+        preTweenCameraRotation = playerCamera.transform.rotation;
+
+        // Tween camera to look at stove
+        StartCoroutine(cameraController.TweenToLamp(() =>
+        {
+            // Trigger the lights to focus on the stove, then trigger action
+            StartCoroutine(lightController.TweenToLamp(action));
+        }));
+    }
+
+    private void TweenFromLamp(Action action)
+    {
+        // Turn off all lights but the stove lights
+        lightController.SnapToLamp();
+        // Tween camera back to original player location
+        StartCoroutine(cameraController.TweenFromLamp(() =>
+        {
+            // Trigger the lights to stop focusing on the stove, then trigger action
+            StartCoroutine(lightController.TweenFromLamp(action));
+        }));
+    }
+
+    private void TweenToDoor(Action action)
+    {
+        preTweenCameraPosition = playerCamera.transform.position;
+        preTweenCameraRotation = playerCamera.transform.rotation;
+
+        // Tween camera to look at stove
+        StartCoroutine(cameraController.TweenToDoor(() =>
+        {
+            // Trigger the lights to focus on the stove, then trigger action
+            StartCoroutine(lightController.TweenToDoor(action));
+        }));
+    }
+
+    private void TweenFromDoor(Action action)
+    {
+        // Turn off all lights but the stove lights
+        lightController.SnapToDoor();
+        // Tween camera back to original player location
+        StartCoroutine(cameraController.TweenFromDoor(() =>
+        {
+            // Trigger the lights to stop focusing on the stove, then trigger action
+            StartCoroutine(lightController.TweenFromDoor(action));
+        }));
+    }
+
+    private void TweenToBlocks(Action action)
+    {
+        preTweenCameraPosition = playerCamera.transform.position;
+        preTweenCameraRotation = playerCamera.transform.rotation;
+
+        // Tween camera to look at stove
+        StartCoroutine(cameraController.TweenToBlocks(() =>
+        {
+            // Trigger the lights to focus on the stove, then trigger action
+            StartCoroutine(lightController.TweenToBlocks(action));
+        }));
+    }
+
+    private void TweenFromBlocks(Action action)
+    {
+        // Turn off all lights but the stove lights
+        lightController.SnapToBlocks();
+        // Tween camera back to original player location
+        StartCoroutine(cameraController.TweenFromBlocks(() =>
+        {
+            // Trigger the lights to stop focusing on the stove, then trigger action
+            StartCoroutine(lightController.TweenFromBlocks(action));
+        }));
     }
 }
