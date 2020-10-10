@@ -68,7 +68,12 @@ public class SwipeDetector : MonoBehaviour
             test.text = "STOP!";
             button.SetActive(true);
         }
-        
+
+        // DEBUG CODE: Shouldn't affect the mobile version though
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
+        }
     }
 
     public void LoadMainScene()

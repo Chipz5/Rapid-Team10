@@ -40,6 +40,15 @@ public class NumberSequence : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        // DEBUG CODE: Shouldn't affect the mobile version though
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
+        }
+    }
+
     public void checkCorrectSequence()
     {
         string buttonName = EventSystem.current.currentSelectedGameObject.name;

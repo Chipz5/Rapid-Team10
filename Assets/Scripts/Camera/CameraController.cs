@@ -23,6 +23,14 @@ public class CameraController : MonoBehaviour
     {
         GameState gameState = GameState.instance;
         gameState.cameraController = gameObject.GetComponent<CameraController>();
+        gameState.stoveCameraTransformPosition = stove.position;
+        gameState.stoveCameraTransformRotation = stove.rotation;
+        gameState.lampCameraTransformPosition = lamp.position;
+        gameState.lampCameraTransformRotation = lamp.rotation;
+        gameState.doorCameraTransformPosition = door.position;
+        gameState.doorCameraTransformRotation = door.rotation;
+        gameState.blocksCameraTransformPosition = blocks.position;
+        gameState.blocksCameraTransformRotation = blocks.rotation;
 
     }
 

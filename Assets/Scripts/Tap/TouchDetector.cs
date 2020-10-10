@@ -51,6 +51,11 @@ public class TouchDetector : MonoBehaviour
 
         }
 
+        // DEBUG CODE: Shouldn't affect the mobile version though
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
+        }
 
     }
 

@@ -26,6 +26,25 @@ public class GameState : MonoBehaviour
     [Tooltip("The object holding the CameraController for this scene")]
     public CameraController cameraController;
 
+    [Header("Camera transforms needed for positioning the cameras in the minigames")]
+    [Tooltip("The transform representing the position of the stove camera object")]
+    public Vector3 stoveCameraTransformPosition;
+    [Tooltip("The transform representing the rotation of the stove camera object")]
+    public Quaternion stoveCameraTransformRotation;
+    [Tooltip("The transform representing the position of the lamp camera object")]
+    public Vector3 lampCameraTransformPosition;
+    [Tooltip("The transform representing the rotation of the lamp camera object")]
+    public Quaternion lampCameraTransformRotation;
+    [Tooltip("The transform representing the position of the door camera object")]
+    public Vector3 doorCameraTransformPosition;
+    [Tooltip("The transform representing the rotation of the door camera object")]
+    public Quaternion doorCameraTransformRotation;
+    [Tooltip("The transform representing the position of the blocks camera object")]
+    public Vector3 blocksCameraTransformPosition;
+    [Tooltip("The transform representing the rotation of the blocks camera object")]
+    public Quaternion blocksCameraTransformRotation;
+
+
     public static string currentCollisionKey;
     
 
@@ -94,7 +113,7 @@ public class GameState : MonoBehaviour
                         {
                             taskList.Remove("Stove");
                             IfAllMinigamesAreComplete();
-                            // Trigger lightController.TweenFromStove() after scene load
+                            // Trigger the tween code after scene load
                             afterSceneTransitionToMovement = () =>
                             {
                                 // Disable controls
@@ -114,7 +133,12 @@ public class GameState : MonoBehaviour
                         {
                             currentCollisionKey = "Lamp";
                             // When the player contacts the stove, launch the minigame
-                            SceneManager.LoadScene(sceneName: "SwipeScene");
+                            // Disable controls until it gets back to Movement
+                            controlsController.gameObject.SetActive(false);
+                            TweenToLamp(() =>
+                            {
+                                SceneManager.LoadScene(sceneName: "SwipeScene");
+                            });
                         },
                         () =>
                         {
@@ -125,18 +149,45 @@ public class GameState : MonoBehaviour
                                 {
                                     currentCollisionKey = "Blocks";
                                     // When the player contacts the stove, launch the minigame
-                                    SceneManager.LoadScene(sceneName: "NumberScene");
+                                    // Disable controls until it gets back to Movement
+                                    controlsController.gameObject.SetActive(false);
+                                    TweenToBlocks(() =>
+                                    {
+                                        SceneManager.LoadScene(sceneName: "NumberScene");
+                                    });
                                 },
                                 () =>
                                 {
                                     taskList.Remove("Blocks");
                                     IfAllMinigamesAreComplete();
+                                    // Trigger the tween code after scene load
+                                    afterSceneTransitionToMovement = () =>
+                                    {
+                                        // Disable controls
+                                        controlsController.gameObject.SetActive(false);
+                                        TweenFromBlocks(() =>
+                                        {
+                                            // Enable controls
+                                            controlsController.gameObject.SetActive(true);
+                                        });
+                                    };
                                     SceneManager.LoadScene(sceneName: "Movement");
                                 },
                                 "Count the blocks",
                                 5));
 
                             IfAllMinigamesAreComplete();
+                            // Trigger the tween code after scene load
+                            afterSceneTransitionToMovement = () =>
+                            {
+                                // Disable controls
+                                controlsController.gameObject.SetActive(false);
+                                TweenFromLamp(() =>
+                                {
+                                    // Enable controls
+                                    controlsController.gameObject.SetActive(true);
+                                });
+                            };
                             SceneManager.LoadScene(sceneName: "Movement");
                         },
                         "Turn the lamp on and off.",
@@ -180,11 +231,27 @@ public class GameState : MonoBehaviour
                          {
                              currentCollisionKey = "Door";
                              // When the player contacts the door, transition to the last minigame
-                             SceneManager.LoadScene(sceneName: "TapScene");
+                             // Disable controls until it gets back to Movement
+                             controlsController.gameObject.SetActive(false);
+                             TweenToDoor(() =>
+                             {
+                                SceneManager.LoadScene(sceneName: "TapScene");
+                             });
                          },
                          () =>
                          {
                              taskList.Remove("Door");
+                             // Trigger the tween code after scene load
+                             afterSceneTransitionToMovement = () =>
+                             {
+                                 // Disable controls
+                                 controlsController.gameObject.SetActive(false);
+                                 TweenFromDoor(() =>
+                                 {
+                                     // Enable controls
+                                     controlsController.gameObject.SetActive(true);
+                                 });
+                             };
                              SceneManager.LoadScene(sceneName: "WinScene");
                          },
                          "Lock and unlock the door.",
