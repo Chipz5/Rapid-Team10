@@ -606,7 +606,7 @@ GameObject:
   m_Component:
   - component: {fileID: 801100448}
   - component: {fileID: 801100449}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Directional Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -777,7 +777,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1406633062}
   - component: {fileID: 1406633063}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Directional Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -869,7 +869,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1505970569}
   - component: {fileID: 1505970570}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
