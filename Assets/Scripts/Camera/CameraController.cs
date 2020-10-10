@@ -79,6 +79,9 @@ public class CameraController : MonoBehaviour
         GameState.instance.playerCamera.transform.position = GameState.preTweenCameraPosition;
         GameState.instance.playerCamera.transform.rotation = GameState.preTweenCameraRotation;
 
+        // The preTweenCameraPosition is off for some reason, so set the localPosition so it doesn't end up off
+        GameState.instance.playerCamera.transform.localPosition = new Vector3(0, 0.73f, 0);
+
         onComplete();
         yield return null;
     }
@@ -121,6 +124,9 @@ public class CameraController : MonoBehaviour
 
         GameState.instance.playerCamera.transform.position = GameState.preTweenCameraPosition;
         GameState.instance.playerCamera.transform.rotation = GameState.preTweenCameraRotation;
+
+        // The preTweenCameraPosition is off for some reason, so set the localPosition so it doesn't end up off
+        GameState.instance.playerCamera.transform.localPosition = new Vector3(0, 0.73f, 0);
 
         onComplete();
         yield return null;
@@ -165,6 +171,9 @@ public class CameraController : MonoBehaviour
         GameState.instance.playerCamera.transform.position = GameState.preTweenCameraPosition;
         GameState.instance.playerCamera.transform.rotation = GameState.preTweenCameraRotation;
 
+        // The preTweenCameraPosition is off for some reason, so set the localPosition so it doesn't end up off
+        GameState.instance.playerCamera.transform.localPosition = new Vector3(0, 0.73f, 0);
+
         onComplete();
         yield return null;
     }
@@ -207,6 +216,9 @@ public class CameraController : MonoBehaviour
 
         GameState.instance.playerCamera.transform.position = GameState.preTweenCameraPosition;
         GameState.instance.playerCamera.transform.rotation = GameState.preTweenCameraRotation;
+
+        // The preTweenCameraPosition is off for some reason, so set the localPosition so it doesn't end up off
+        GameState.instance.playerCamera.transform.localPosition = new Vector3(0, 0.73f, 0);
 
         onComplete();
         yield return null;
