@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OscillateObject : MonoBehaviour
 {
-    public float delta = 15f;  // Amount to move left and right from the start point
+    public float delta = 500f;  // Amount to move left and right from the start point
     public float speed = 2f;
     private Vector3 startPos;
 
