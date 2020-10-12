@@ -7,6 +7,7 @@ public class LoadScene : MonoBehaviour
 {
     public void Scene1()
     {
+        GameState.afterSceneTransitionToMovement = () => { GameState.instance.InitializeGame(); };
         SceneManager.LoadScene("Movement");
     }
 }

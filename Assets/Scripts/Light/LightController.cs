@@ -8,7 +8,7 @@ public class LightController : MonoBehaviour
     [Tooltip("The time it takes (in seconds) to transition to or from a specific spotlight")]
     public float tweenTime;
 
-    public Light[] globalLights = new Light[3];
+    public Light[] globalLights = new Light[4];
     public Light[] stoveLights = new Light[3];
     public Light[] lampLights = new Light[3];
     public Light[] doorLights = new Light[3];
