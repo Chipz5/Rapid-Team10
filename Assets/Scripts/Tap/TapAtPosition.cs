@@ -20,7 +20,7 @@ public class TapAtPosition : MonoBehaviour
         if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
         {
             circle = GameObject.Find("Circle");
-            if (circle.transform.position.x > 350 && circle.transform.position.x < 500)
+            if (circle.transform.localPosition.x > -30 && circle.transform.localPosition.x < 30)
             {
                 GameState.taskList[GameState.currentCollisionKey].onMinigameComplete();
             }
