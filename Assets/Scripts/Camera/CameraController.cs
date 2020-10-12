@@ -17,6 +17,8 @@ public class CameraController : MonoBehaviour
     public Transform door;
     [Tooltip("The transform representing the rotation and position of the blocks camera object")]
     public Transform blocks;
+    [Tooltip("The transform representing the rotation and position of the finish camera object")]
+    public Transform finish;
 
     // Start is called before the first frame update
     void Start()
@@ -219,6 +221,29 @@ public class CameraController : MonoBehaviour
 
         // The preTweenCameraPosition is off for some reason, so set the localPosition so it doesn't end up off
         GameState.instance.playerCamera.transform.localPosition = new Vector3(0, 0.73f, 0);
+
+        onComplete();
+        yield return null;
+    }
+
+    public IEnumerator TweenToFinish(Action onComplete)
+    {
+        float t = 0.0f;
+
+        Vector3 fromPosition = GameState.instance.playerCamera.transform.position;
+        Quaternion fromRotation = GameState.instance.playerCamera.transform.rotation;
+
+        while (t <= 1.0f)
+        {
+            t += Time.deltaTime * (Time.timeScale / tweenTime);
+
+            GameState.instance.playerCamera.transform.position = Vector3.Lerp(fromPosition, finish.position, t);
+            GameState.instance.playerCamera.transform.rotation = Quaternion.Lerp(fromRotation, finish.rotation, t);
+            yield return null;
+        }
+
+        GameState.instance.playerCamera.transform.position = finish.position;
+        GameState.instance.playerCamera.transform.rotation = finish.rotation;
 
         onComplete();
         yield return null;

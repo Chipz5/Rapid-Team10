@@ -19,6 +19,8 @@ public class GameState : MonoBehaviour
     public Rigidbody player;
     [Tooltip("The camera representing the main character's view (should be the child of player)")]
     public Camera playerCamera;
+
+    [Header("The various control objects needed to control camera, lights, and controls")]
     [Tooltip("The object holding the LightController for this scene")]
     public LightController lightController;
     [Tooltip("The object holding the ControlsController for this scene")]
@@ -44,6 +46,9 @@ public class GameState : MonoBehaviour
     [Tooltip("The transform representing the rotation of the blocks camera object")]
     public Quaternion blocksCameraTransformRotation;
 
+    [Header("Animated objects")]
+    [Tooltip("The object needed to play the door opening animation")]
+    public Animator doorAnimator;
 
     public static string currentCollisionKey;
     
@@ -92,7 +97,10 @@ public class GameState : MonoBehaviour
             {
                 cameraController = GameObject.Find("CameraTransforms").GetComponent<CameraController>();
             }
-
+            if(doorAnimator == null)
+            {
+                doorAnimator = GameObject.Find("animatedDoor").GetComponent<Animator>();
+            }
             taskList.Add("Door", new Task("Leave your home.",
                 ()=>
                 {
@@ -249,10 +257,14 @@ public class GameState : MonoBehaviour
                                  TweenFromDoor(() =>
                                  {
                                      // Enable controls
-                                     controlsController.gameObject.SetActive(true);
+                                     //controlsController.gameObject.SetActive(true);
+                                     TweenToFinish(() =>
+                                     {
+                                         SceneManager.LoadScene(sceneName: "WinScene");
+                                     });
                                  });
                              };
-                             SceneManager.LoadScene(sceneName: "WinScene");
+                             SceneManager.LoadScene(sceneName: "Movement");
                          },
                          "Lock and unlock the door.",
                          5));
@@ -357,5 +369,26 @@ public class GameState : MonoBehaviour
             // Trigger the lights to stop focusing on the stove, then trigger action
             StartCoroutine(lightController.TweenFromBlocks(action));
         }));
+    }
+
+    private void TweenToFinish(Action action)
+    {
+        StartCoroutine(cameraController.TweenToFinish(() =>
+        {
+            StartCoroutine(OpenDoor(action));
+        }));
+    }
+
+    private IEnumerator OpenDoor(Action action)
+    {
+        if (doorAnimator == null)
+        {
+            doorAnimator = GameObject.Find("animatedDoor").GetComponent<Animator>();
+        }
+
+        doorAnimator.SetBool("OpenDoor", true);
+        yield return new WaitForSeconds(3);
+        action();
+        yield return null;
     }
 }
