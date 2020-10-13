@@ -13,6 +13,7 @@ public class SwipeDetector : MonoBehaviour
     public Text test;
     public Text objectiveText;
     public GameObject button;
+    public Light lampLight;
 
     private int count = 5;
 
@@ -38,6 +39,17 @@ public class SwipeDetector : MonoBehaviour
             {
                 fingerDownPosition = touch.position;
                 DetectSwipeDirection();
+
+                // If the swipe was up, turn the light on
+                if(swipeDirection == SwipeDirection.Up)
+                {
+                    lampLight.gameObject.SetActive(true);
+                }
+                else if(swipeDirection == SwipeDirection.Down)
+                {
+                    // If the swipe was down, turn the light off
+                    lampLight.gameObject.SetActive(false);
+                }
 
                 if (swipeDirection == nextSwipeDirection)
                 {
